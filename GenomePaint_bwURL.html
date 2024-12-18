@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script src="https://proteinpaint.stjude.org/bin/proteinpaint.js" charset="utf-8"></script>
+
+<div id="a" style="margin:10px"></div>
+
+<script>
+// Function to extract URL parameters
+function getURLParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Get the file URL from the "fileUrl" parameter in the query string
+const fileUrl = getURLParameter('fileUrl') || 'https://duffel.rail.bio/recount3/human/data_sources/sra/base_sums/75/SRP107875/93/sra.base_sums.SRP107875_SRR5588793.ALL.bw';
+
+runproteinpaint({
+    host: "https://proteinpaint.stjude.org/",
+    holder: document.getElementById('a'),
+    parseurl: true,
+    block: true,
+    nobox: 1,
+    noheader: 1,
+    genome: "hg38",
+    position: "chr8:127735433-127742951",
+    nativetracks: "RefGene",
+    tracks: [
+        {
+            __isgene: true,
+            translatecoding: true,
+            categories: {
+                coding: { color: '#004D99', label: 'Coding gene' },
+                nonCoding: { color: '#009933', label: 'Noncoding gene' },
+                problem: { color: '#FF3300', label: 'Problem' },
+                pseudo: { color: '#FF00CC', label: 'Pseudogene' }
+            },
+            type: 'bedj',
+            name: 'GENCODE v34',
+            stackheight: 16,
+            stackspace: 1,
+            vpad: 4,
+            file: 'anno/gencode.v34.hg38.gz'
+        },       
+        {
+            type: 'bigwig',
+            url: fileUrl,
+            name: 'SRP107875 scramble THP1 '
+        },        
+    ]
+});
+</script>
+
+</body>
+</html>
+
